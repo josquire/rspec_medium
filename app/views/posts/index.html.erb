@@ -1,0 +1,29 @@
+<nav class="nav-bar">
+  	<ul class="breadcrumb">
+  		<li role="presentation"><%= link_to 'Home', root_path %></a></li>
+  		<li role="presentation" class="active"><%=@user.username.capitalize%></li>
+  		<% if current_user %>
+        <li class="pull-right"><%= link_to 'Add Post', new_post_path(current_user) %></li>
+      <% end %>
+  	</ul>
+  </nav>
+  <div class="container">
+    <div class="panel panel-default">
+      <h1> Posts from <%= @user.username %> </h1>
+      <% @posts.each do |post| %>
+      	<div> <%=link_to post.title.capitalize, post_path(post) %> </div>
+      	<div> <%= post.content %> </div>
+        <% if current_user %>
+          <% if current_user.id == post.user_id %>
+          <div><button type="button" class="btn btn-default col-md-1 ">
+            <%= link_to 'Edit', edit_post_path(post) %>
+          </div>
+          <div><button type="button" class="btn btn-default col-md-1 ">
+            <%= link_to 'Delete', post_path(post), method: :delete %>
+          </div>
+          <% end %>
+        <% end %>
+      	<br>
+      <% end %>
+    </div>
+  </div>
